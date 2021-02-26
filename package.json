@@ -4,7 +4,7 @@
   "description": "My webpack project",
   "private": true,
   "scripts": {
-    "build": "webpack --output public",
+    "build": "webpack",
     "start": "webpack-dev-server --open"
   },
   "repository": {
