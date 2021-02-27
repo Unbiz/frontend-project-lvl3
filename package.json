@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "build": "rm -rf dist && webpack",
-    "start": "webpack-dev-server --open"
+    "start": "webpack serve --open"
   },
   "repository": {
     "type": "git",
