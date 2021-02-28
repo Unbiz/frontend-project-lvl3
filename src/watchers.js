@@ -9,15 +9,15 @@ const renderChangeValidStatus = (value, pageElements) => {
   }
 };
 
-const renderChangeErrorMessage = (value, pageElements) => {
+const renderChangeMessage = (value, pageElements) => {
   const { feedback } = pageElements;
   feedback.textContent = value;
 };
 
-const renderChangeFeeds = (value, pageElements) => {
+const renderChangeFeeds = (value, pageElements, i18next) => {
   const { feeds } = pageElements;
   feeds.innerHTML = (
-    `<h2>Фиды</h2>
+    `<h2>${i18next.t('feeds')}</h2>
           <ul class="list-group mb-5">
           </ul>`
   );
@@ -31,10 +31,10 @@ const renderChangeFeeds = (value, pageElements) => {
   feedsList.append(feedItem);
 };
 
-const renderChangePosts = (value, pageElements) => {
+const renderChangePosts = (value, pageElements, i18next) => {
   const { posts } = pageElements;
   posts.innerHTML = (
-    `<h2>Посты</h2>
+    `<h2>${i18next.t('posts')}</h2>
           <ul class="list-group">
           </ul>`
   );
@@ -45,26 +45,26 @@ const renderChangePosts = (value, pageElements) => {
     postItem.innerHTML = (
       `<a href="${post.link}" class="font-weight-bold" data-id="${post.id}" target="_blank" rel="noopener noreferrer">${post.title}</a>
             <button type="button" class="btn btn-primary btn-sm" data-id="${post.id}" data-toggle="modal"
-            data-target="#modal">Просмотр</button>`
+            data-target="#modal">${i18next.t('view')}</button>`
     );
     postsList.append(postItem);
   });
 };
 
-export default (state, pageElements) => {
+export default (state, pageElements, i18next) => {
   const watcher = onChange(state, (path, value) => {
     switch (path) {
       case 'form.validStatus':
         renderChangeValidStatus(value, pageElements);
         break;
-      case 'form.errorMessage':
-        renderChangeErrorMessage(value, pageElements);
+      case 'form.message':
+        renderChangeMessage(value, pageElements);
         break;
       case 'feeds':
-        renderChangeFeeds(value, pageElements);
+        renderChangeFeeds(value, pageElements, i18next);
         break;
       case 'posts':
-        renderChangePosts(value, pageElements);
+        renderChangePosts(value, pageElements, i18next);
         break;
       default:
         break;

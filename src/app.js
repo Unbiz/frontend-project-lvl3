@@ -1,17 +1,42 @@
 import * as yup from 'yup';
 import axios from 'axios';
+import i18next from 'i18next';
+
+import resources from './locales';
 import getWatcher from './watchers.js';
 
 export default () => {
   const rssState = {
+    lng: 'en',
     form: {
       inputValue: '',
       validStatus: true,
-      errorMessage: '',
+      message: '',
     },
     feeds: [],
     posts: [],
   };
+
+  i18next.init({
+    lng: rssState.lng,
+    resources,
+  });
+
+  const changeLanguageTemplateHTML = (i18next) => {
+    const title = document.querySelector('h1');
+    const description = document.querySelector('h1 + p');
+    const input = document.querySelector('input');
+    const button = document.querySelector('button');
+    const example = document.querySelector('form + p');
+
+    title.textContent = i18next.t('html.title');
+    description.textContent = i18next.t('html.description');
+    input.placeholder = i18next.t('html.placeholder');
+    button.textContent = i18next.t('html.button');
+    example.textContent = `${i18next.t('html.button')}: https://ru.hexlet.io/lessons.rss`;
+  };
+
+  changeLanguageTemplateHTML(i18next);
 
   const pageElements = {
     form: document.querySelector('form[data-type="form"]'),
@@ -32,26 +57,18 @@ export default () => {
   const getUnuqFeedid = geIdCounter();
   const getUnuqPostid = geIdCounter();
 
-  const errorMessages = {
-    invalidUrl: 'Url is not valid. Please enter a valid URL adress.',
-    doubleFeed: 'This feed is olready added.',
-    errorNetwork: 'Network is offline.',
-    downloading: 'Downloading...',
-    downloadOk: 'RSS успешно загружен',
-  };
-
   const PROXY_URL = 'https://hexlet-allorigins.herokuapp.com/get?url=';
   const buildUrlWithProxy = (url) => `${PROXY_URL}${url}`;
 
   const validateUrl = (url, feeds) => {
     const schema = yup
       .string()
-      .url(errorMessages.invalidUrl)
-      .notOneOf(feeds, errorMessages.doubleFeed);
+      .url(i18next.t('errors.urlInvalid'))
+      .notOneOf(feeds, i18next.t('errors.urlAlreadyExists'));
     return schema.validate(url);
   };
 
-  const watcher = getWatcher(rssState, pageElements);
+  const watcher = getWatcher(rssState, pageElements, i18next);
 
   const getParsedFeed = (data) => {
     const parser = new DOMParser();
@@ -80,14 +97,12 @@ export default () => {
           };
         });
         feed.postsId = [...posts].map((post) => post.id);
-        watcher.form.errorMessage = errorMessages.downloadOk;
+        watcher.form.message = i18next.t('messages.loadedSuccess');
         watcher.feeds.unshift(feed);
         watcher.posts.push(...posts);
-        console.log(rssState);
       })
-      .catch((err) => {
-        console.log('!$!$!$!', err);
-        watcher.form.errorMessage = errorMessages.errorNetwork;
+      .catch(() => {
+        watcher.form.message = i18next.t('errors.network');
       });
   };
 
@@ -99,14 +114,14 @@ export default () => {
     validateUrl(inputValueUrl, addedFeedsUrl)
       .then(() => {
         watcher.form.validStatus = true;
-        watcher.form.errorMessage = '';
+        watcher.form.message = '';
         watcher.form.inputValue = inputValueUrl;
-        watcher.form.errorMessage = errorMessages.downloading;
+        watcher.form.message = i18next.t('messages.loading');
         loadRssFeed(inputValueUrl);
       })
       .catch((error) => {
         watcher.form.validStatus = false;
-        watcher.form.errorMessage = error.errors;
+        watcher.form.message = error.errors;
         watcher.form.inputValue = inputValueUrl;
       });
   });
