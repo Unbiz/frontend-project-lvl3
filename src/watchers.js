@@ -22,13 +22,17 @@ const renderChangeFeeds = (value, pageElements, i18next) => {
           </ul>`
   );
   const feedsList = feeds.querySelector('ul');
-  const feedItem = document.createElement('li');
-  feedItem.classList.add('list-group-item');
-  feedItem.innerHTML = (
-    `<h3>${value[0].title}</h3>
-          <p>${value[0].description}</p>`
-  );
-  feedsList.append(feedItem);
+
+  const feedItems = value.map((item) => {
+    const feedItem = document.createElement('li');
+    feedItem.classList.add('list-group-item');
+    feedItem.innerHTML = (
+      `<h3>${item.title}</h3>
+          <p>${item.description}</p>`
+    );
+    return feedItem;
+  });
+  feedsList.append(...feedItems);
 };
 
 const renderChangePosts = (value, pageElements, i18next) => {

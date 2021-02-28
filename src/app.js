@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import * as yup from 'yup';
 import axios from 'axios';
 import i18next from 'i18next';
@@ -17,12 +18,14 @@ export default () => {
     posts: [],
   };
 
+  const updateInterval = 5000;
+
   i18next.init({
     lng: rssState.lng,
     resources,
   });
 
-  const changeLanguageTemplateHTML = (i18next) => {
+  const changeLanguageTemplateHTML = () => {
     const title = document.querySelector('h1');
     const description = document.querySelector('h1 + p');
     const input = document.querySelector('input');
@@ -36,7 +39,7 @@ export default () => {
     example.textContent = `${i18next.t('html.button')}: https://ru.hexlet.io/lessons.rss`;
   };
 
-  changeLanguageTemplateHTML(i18next);
+  changeLanguageTemplateHTML();
 
   const pageElements = {
     form: document.querySelector('form[data-type="form"]'),
@@ -55,7 +58,6 @@ export default () => {
   };
 
   const getUnuqFeedid = geIdCounter();
-  const getUnuqPostid = geIdCounter();
 
   const PROXY_URL = 'https://hexlet-allorigins.herokuapp.com/get?url=';
   const buildUrlWithProxy = (url) => `${PROXY_URL}${url}`;
@@ -88,21 +90,55 @@ export default () => {
           title: feedTitle, description: feedDescription, id: feedId, url: inputValueUrl,
         };
         const posts = [...feedPostsElements].map((post) => {
-          const postId = getUnuqPostid();
           const title = post.querySelector('title').textContent;
           const link = post.querySelector('link').textContent;
           const description = post.querySelector('description').textContent;
           return {
-            title, link, description, id: postId,
+            title, link, description, feedId,
           };
         });
-        feed.postsId = [...posts].map((post) => post.id);
         watcher.form.message = i18next.t('messages.loadedSuccess');
         watcher.feeds.unshift(feed);
-        watcher.posts.push(...posts);
+        watcher.posts.unshift(...posts);
       })
       .catch(() => {
         watcher.form.message = i18next.t('errors.network');
+      });
+  };
+
+  const updatePosts = (state) => {
+    const { feeds, posts } = state;
+
+    if (rssState.feeds.length === 0) {
+      return setTimeout(updatePosts, updateInterval, state);
+    }
+
+    const promises = feeds.map((feed) => {
+      const oldPosts = posts.filter((post) => post.feedId === feed.id);
+      const url = buildUrlWithProxy(feed.url);
+      return axios.get(url)
+        .then((response) => {
+          const parsedFeed = getParsedFeed(response.data.contents);
+          const feedPostsElements = parsedFeed.querySelectorAll('item');
+          const currentPosts = [...feedPostsElements].map((post) => {
+            const title = post.querySelector('title').textContent;
+            const link = post.querySelector('link').textContent;
+            const description = post.querySelector('description').textContent;
+            return {
+              title, link, description, feedId: feed.id,
+            };
+          });
+          const newPosts = _.differenceWith(currentPosts, oldPosts, _.isEqual);
+          watcher.posts.unshift(...newPosts);
+        })
+        .catch(() => {
+          console.log('error timeout');
+        });
+    });
+    return Promise.all(promises)
+      .then(() => {
+        console.log('new timeout');
+        setTimeout(updatePosts, updateInterval, state);
       });
   };
 
@@ -125,4 +161,6 @@ export default () => {
         watcher.form.inputValue = inputValueUrl;
       });
   });
+
+  updatePosts(rssState);
 };
