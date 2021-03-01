@@ -108,6 +108,15 @@ const renderChangePosts = (value, prevValue, pageElements, i18next) => {
           closeButton.removeEventListener('click', closeModal);
         });
       };
+
+      const closeModalBack = (evt) => {
+        if (evt.target === modal) {
+          closeModal();
+          modal.removeEventListener('click', closeModalBack);
+        }
+      };
+
+      modal.addEventListener('click', closeModalBack);
       closeButtons.forEach((closeButton) => {
         closeButton.addEventListener('click', closeModal);
       });
