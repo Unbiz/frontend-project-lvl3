@@ -11,11 +11,17 @@ const renderChangeValidStatus = (value, pageElements) => {
 };
 
 const renderChangeMessage = (value, pageElements) => {
-  const { feedback } = pageElements;
-  const feedbackDouble = document.querySelector('.feedback');
+  const { feedback, form } = pageElements;
+  const oldDouble = document.querySelector('.double');
+  if (oldDouble !== null) {
+    oldDouble.remove();
+  }
+  const feedbackDouble = document.createElement('div');
+  feedbackDouble.classList.add('double');
   console.log('@@@FED-', feedback, '@@@DOUB-', feedbackDouble, '@@@VAL-', value);
   feedback.textContent = value;
   feedbackDouble.textContent = value;
+  form.append(feedbackDouble);
   console.log('RESULT---', feedback.textContent);
 };
 
