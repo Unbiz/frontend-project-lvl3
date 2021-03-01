@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import * as yup from 'yup';
 import axios from 'axios';
-import i18next from 'i18next';
+import i18n from 'i18next';
 
 import resources from './locales';
 import getWatcher from './watchers.js';
@@ -20,6 +20,7 @@ export default () => {
 
   const updateInterval = 5000;
 
+  const i18next = i18n.createInstance();
   i18next.init({
     lng: rssState.lng,
     resources,
