@@ -66,8 +66,18 @@ export default () => {
   const buildUrlWithProxy = (url) => `${PROXY_URL}${url}`;
 
   const validateUrl = (url, feeds) => {
+    // yup.setLocale({
+    //   string: {
+    //     default: i18next.t('errors.urlInvalid'),
+    //     url: i18next.t('errors.urlInvalid'),
+    //   },
+    //   notOneOf: {
+    //     default: i18next.t('errors.urlAlreadyExists'),
+    //   },
+    // });
+
     const schema = yup
-      .string()
+      .string(i18next.t('errors.urlInvalid'))
       .url(i18next.t('errors.urlInvalid'))
       .notOneOf(feeds, i18next.t('errors.urlAlreadyExists'));
     return schema.validate(url);
