@@ -18,11 +18,11 @@ const renderChangeMessage = (value, pageElements) => {
   }
   const feedbackDouble = document.createElement('div');
   feedbackDouble.classList.add('double');
-  console.log('@@@FED-', feedback, '@@@DOUB-', feedbackDouble, '@@@VAL-', value);
   // feedback.textContent = value;
   feedbackDouble.innerHTML = value;
+  console.log('@@@FED-', feedback, '@@@DOUB-', feedbackDouble, '@@@VAL-', value);
   form.append(feedbackDouble);
-  console.log('RESULT---', feedback.textContent);
+  console.log('RESULT---', feedbackDouble.textContent);
 };
 
 const renderChangeFeeds = (value, pageElements, i18next) => {
