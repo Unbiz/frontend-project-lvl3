@@ -10,7 +10,7 @@ export default () => {
   const rssState = {
     lng: 'en',
     form: {
-      inputValue: '',
+      // inputValue: '',
       validStatus: true,
       message: '',
     },
@@ -57,7 +57,8 @@ export default () => {
     };
   };
 
-  const getUnuqFeedid = geIdCounter();
+  const getUnuqFeedId = geIdCounter();
+  const getUnuqPostId = geIdCounter();
 
   const PROXY_URL = 'https://hexlet-allorigins.herokuapp.com/get?url=';
   const buildUrlWithProxy = (url) => `${PROXY_URL}${url}`;
@@ -82,7 +83,7 @@ export default () => {
     axios.get(url)
       .then((response) => {
         const parsedFeed = getParsedFeed(response.data.contents);
-        const feedId = getUnuqFeedid();
+        const feedId = getUnuqFeedId();
         const feedTitle = parsedFeed.querySelector('channel title').textContent;
         const feedDescription = parsedFeed.querySelector('channel description').textContent;
         const feedPostsElements = parsedFeed.querySelectorAll('item');
@@ -90,11 +91,12 @@ export default () => {
           title: feedTitle, description: feedDescription, id: feedId, url: inputValueUrl,
         };
         const posts = [...feedPostsElements].map((post) => {
+          const postId = getUnuqPostId();
           const title = post.querySelector('title').textContent;
           const link = post.querySelector('link').textContent;
           const description = post.querySelector('description').textContent;
           return {
-            title, link, description, feedId,
+            title, link, description, feedId, id: postId, readed: false,
           };
         });
         watcher.form.message = i18next.t('messages.loadedSuccess');
@@ -125,11 +127,17 @@ export default () => {
             const link = post.querySelector('link').textContent;
             const description = post.querySelector('description').textContent;
             return {
-              title, link, description, feedId: feed.id,
+              title, link, description, feedId: feed.id, readed: false,
             };
           });
-          const newPosts = _.differenceWith(currentPosts, oldPosts, _.isEqual);
-          watcher.posts.unshift(...newPosts);
+          const oldPostsWithoutId = oldPosts.map((post) => {
+            const cloneOldPosts = _.cloneDeep(post);
+            delete cloneOldPosts.id;
+            return cloneOldPosts;
+          });
+          const newPosts = _.differenceWith(currentPosts, oldPostsWithoutId, _.isEqual);
+          const newPostsWithId = newPosts.map((post) => ({ ...post, id: getUnuqPostId() }));
+          watcher.posts.push(...newPostsWithId);
         })
         .catch(() => {
           console.log('error timeout');
@@ -137,7 +145,6 @@ export default () => {
     });
     return Promise.all(promises)
       .then(() => {
-        console.log('new timeout');
         setTimeout(updatePosts, updateInterval, state);
       });
   };
@@ -151,7 +158,6 @@ export default () => {
       .then(() => {
         watcher.form.validStatus = true;
         watcher.form.message = '';
-        watcher.form.inputValue = inputValueUrl;
         watcher.form.message = i18next.t('messages.loading');
         loadRssFeed(inputValueUrl);
       })

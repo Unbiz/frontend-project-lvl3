@@ -20,5 +20,9 @@ export default {
       button: 'Add',
       example: 'Example',
     },
+    modal: {
+      readFull: 'Read full',
+      close: 'Close',
+    },
   },
 };
