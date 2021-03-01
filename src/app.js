@@ -61,6 +61,7 @@ export default () => {
 
   const getUnuqFeedId = geIdCounter();
   const getUnuqPostId = geIdCounter();
+  const getUnuqURLId = geIdCounter();
 
   const PROXY_URL = 'https://hexlet-allorigins.herokuapp.com/get?url=';
   const buildUrlWithProxy = (url) => `${PROXY_URL}${url}`;
@@ -184,12 +185,14 @@ export default () => {
         watcher.form.validStatus = true;
         watcher.form.message = i18next.t('messages.loading');
         loadRssFeed(inputValueUrl);
+        console.log('%%%%%%%%%%%%%count---', getUnuqURLId());
       })
       .catch((error) => {
         console.log(error.errors[0], '!!!!NOTVALID!!!--', inputValueUrl);
         const errorMessage = error.errors[0];
         watcher.form.message = errorMessage;
         watcher.form.validStatus = false;
+        console.log('%%%%%%%%%%%%%count---', getUnuqURLId());
       });
   });
 

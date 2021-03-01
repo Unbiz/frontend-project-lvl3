@@ -97,6 +97,7 @@ const renderChangePosts = (value, prevValue, pageElements, i18next) => {
       const backdrop = document.createElement('div');
       backdrop.classList.add('modal-backdrop', 'fade', 'show');
       body.append(backdrop);
+      console.log('OPEN_MODALLLLLLLLLLLLLL');
 
       const link = postItem.querySelector(`a[data-id="${button.dataset.id}"]`);
       link.classList.remove('font-weight-bold');
