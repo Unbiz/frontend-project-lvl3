@@ -168,7 +168,6 @@ export default () => {
       .catch((error) => {
         watcher.form.validStatus = false;
         watcher.form.message = error.errors;
-        watcher.form.inputValue = inputValueUrl;
       });
   });
 
