@@ -12,7 +12,10 @@ const renderChangeValidStatus = (value, pageElements) => {
 
 const renderChangeMessage = (value, pageElements) => {
   const { feedback } = pageElements;
+  const feedbackDouble = document.querySelector('.feedback');
+  console.log('@@@FED-', feedback, '@@@DOUB-', feedbackDouble, '@@@VAL-', value);
   feedback.textContent = value;
+  feedbackDouble.textContent = value;
 };
 
 const renderChangeFeeds = (value, pageElements, i18next) => {
