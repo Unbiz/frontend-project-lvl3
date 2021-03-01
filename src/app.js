@@ -82,9 +82,11 @@ export default () => {
   const loadRssFeed = (inputValueUrl) => {
     const url = buildUrlWithProxy(inputValueUrl);
     watcher.status = 'waiting';
+    watcher.form.message = '';
     axios.get(url)
       .then((response) => {
         watcher.form.message = i18next.t('messages.loadedSuccess');
+        console.log('??????????????', rssState);
         const parsedFeed = getParsedFeed(response.data.contents);
         const feedId = getUnuqFeedId();
         const feedTitle = parsedFeed.querySelector('channel title').textContent;
@@ -108,6 +110,7 @@ export default () => {
       })
       .catch(() => {
         watcher.form.message = i18next.t('errors.network');
+        console.log('!!!!!!!!!', rssState);
         watcher.status = 'ready';
       });
   };

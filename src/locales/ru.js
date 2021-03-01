@@ -1,10 +1,10 @@
 export default {
   translation: {
     errors: {
-      network: 'Сеть недоступна, попробуйте позже',
+      network: 'Ошибка сети',
       parseFeed: 'Неправильный формат RSS, попробуйте другой адресс',
-      urlInvalid: 'Вы ввели некоректный адресс',
-      urlAlreadyExists: 'Этот адресс RSS уже добавлен',
+      urlInvalid: 'Ссылка должна быть валидным URL',
+      urlAlreadyExists: 'RSS уже существует',
     },
     messages: {
       loadedSuccess: 'RSS успешно загружен',
