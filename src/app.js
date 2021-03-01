@@ -84,6 +84,7 @@ export default () => {
     watcher.status = 'waiting';
     axios.get(url)
       .then((response) => {
+        watcher.form.message = i18next.t('messages.loadedSuccess');
         const parsedFeed = getParsedFeed(response.data.contents);
         const feedId = getUnuqFeedId();
         const feedTitle = parsedFeed.querySelector('channel title').textContent;
@@ -101,7 +102,6 @@ export default () => {
             title, link, description, feedId, id: postId, readed: false,
           };
         });
-        watcher.form.message = i18next.t('messages.loadedSuccess');
         watcher.feeds.unshift(feed);
         watcher.posts.unshift(...posts);
         watcher.status = 'ready';
