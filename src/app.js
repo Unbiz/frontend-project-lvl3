@@ -185,14 +185,16 @@ export default () => {
         watcher.form.validStatus = true;
         watcher.form.message = i18next.t('messages.loading');
         loadRssFeed(inputValueUrl);
-        console.log('%%%%%%%%%%%%%count---', getUnuqURLId());
+        const xxx = getUnuqURLId();
+        console.log('!!!!!!!!!!!!!count---', xxx);
       })
       .catch((error) => {
         console.log(error.errors[0], '!!!!NOTVALID!!!--', inputValueUrl);
         const errorMessage = error.errors[0];
         watcher.form.message = errorMessage;
         watcher.form.validStatus = false;
-        console.log('%%%%%%%%%%%%%count---', getUnuqURLId());
+        const yyy = getUnuqURLId();
+        console.log('!!!!!!!!!!!count---', yyy);
       });
   });
 
