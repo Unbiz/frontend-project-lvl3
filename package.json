@@ -7,7 +7,7 @@
     "build": "rm -rf dist && webpack",
     "start": "webpack serve --open"
   },
-  "main": "src/index.js",
+  "main": "src/init.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Unbiz/frontend-project-lvl3.git"
