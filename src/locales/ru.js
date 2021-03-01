@@ -7,7 +7,7 @@ export default {
       urlAlreadyExists: 'Этот адресс RSS уже добавлен',
     },
     messages: {
-      loadedSuccess: 'RSS загружен',
+      loadedSuccess: 'RSS успешно загружен',
       loading: 'Загрузка...',
     },
     feeds: 'Фиды',
