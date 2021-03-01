@@ -83,7 +83,11 @@ export default () => {
     const url = buildUrlWithProxy(inputValueUrl);
     watcher.status = 'waiting';
     watcher.form.message = '';
-    axios.get(url)
+    axios.get(url, {
+      params: {
+        disableCache: true,
+      },
+    })
       .then((response) => {
         watcher.form.message = i18next.t('messages.loadedSuccess');
         console.log('??????????????', rssState);
@@ -125,7 +129,11 @@ export default () => {
     const promises = feeds.map((feed) => {
       const oldPosts = posts.filter((post) => post.feedId === feed.id);
       const url = buildUrlWithProxy(feed.url);
-      return axios.get(url)
+      return axios.get(url, {
+        params: {
+          disableCache: true,
+        },
+      })
         .then((response) => {
           const parsedFeed = getParsedFeed(response.data.contents);
           const feedPostsElements = parsedFeed.querySelectorAll('item');
