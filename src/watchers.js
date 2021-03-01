@@ -16,6 +16,7 @@ const renderChangeMessage = (value, pageElements) => {
   console.log('@@@FED-', feedback, '@@@DOUB-', feedbackDouble, '@@@VAL-', value);
   feedback.textContent = value;
   feedbackDouble.textContent = value;
+  console.log('RESULT---', feedback.textContent);
 };
 
 const renderChangeFeeds = (value, pageElements, i18next) => {
