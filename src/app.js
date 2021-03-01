@@ -175,7 +175,7 @@ export default () => {
   pageElements.form.addEventListener('submit', (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const inputValueUrl = formData.get('url').trim();
+    const inputValueUrl = formData.get('url');
     const addedFeedsUrl = rssState.feeds.map((feed) => feed.url);
     validateUrl(inputValueUrl, addedFeedsUrl)
       .then(() => {
