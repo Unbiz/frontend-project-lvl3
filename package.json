@@ -2,7 +2,6 @@
   "name": "@hexlet/code",
   "version": "0.0.5",
   "description": "RSS aggregator - study project",
-  "private": true,
   "scripts": {
     "build": "rm -rf dist && webpack",
     "start": "webpack serve --open"
