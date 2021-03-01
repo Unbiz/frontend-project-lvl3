@@ -78,6 +78,7 @@ export default () => {
 
     const schema = yup
       .string(i18next.t('errors.urlInvalid'))
+      .required(i18next.t('errors.urlInvalid'))
       .url(i18next.t('errors.urlInvalid'))
       .notOneOf(feeds, i18next.t('errors.urlAlreadyExists'));
     return schema.validate(url);
@@ -185,8 +186,8 @@ export default () => {
         loadRssFeed(inputValueUrl);
       })
       .catch((error) => {
-        watcher.form.validStatus = false;
         watcher.form.message = error.errors;
+        watcher.form.validStatus = false;
       });
   });
 
