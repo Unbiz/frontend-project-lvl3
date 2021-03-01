@@ -89,7 +89,6 @@ const renderChangePosts = (value, prevValue, pageElements, i18next) => {
       body.append(backdrop);
 
       const link = postItem.querySelector(`a[data-id="${button.dataset.id}"]`);
-      console.log(link);
       link.classList.remove('font-weight-bold');
       link.classList.add('font-weight-normal');
 
@@ -117,7 +116,6 @@ const renderChangeStatus = (value, pageElements) => {
   const { addButton } = pageElements;
   if (value === 'waiting') addButton.disabled = true;
   if (value === 'ready') addButton.removeAttribute('disabled');
-  console.log(value, '^^^^^^^^^^', addButton);
 };
 
 export default (state, pageElements, i18next) => {
