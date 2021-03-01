@@ -8,9 +8,9 @@ import getWatcher from './watchers.js';
 
 export default () => {
   const rssState = {
-    lng: 'en',
+    lng: 'ru',
+    status: 'ready',
     form: {
-      // inputValue: '',
       validStatus: true,
       message: '',
     },
@@ -47,6 +47,7 @@ export default () => {
     feedback: document.querySelector('.feedback'),
     feeds: document.querySelector('.feeds'),
     posts: document.querySelector('.posts'),
+    addButton: document.querySelector('button[data-type="button"]'),
   };
 
   const geIdCounter = () => {
@@ -80,6 +81,7 @@ export default () => {
 
   const loadRssFeed = (inputValueUrl) => {
     const url = buildUrlWithProxy(inputValueUrl);
+    watcher.status = 'waiting';
     axios.get(url)
       .then((response) => {
         const parsedFeed = getParsedFeed(response.data.contents);
@@ -102,6 +104,7 @@ export default () => {
         watcher.form.message = i18next.t('messages.loadedSuccess');
         watcher.feeds.unshift(feed);
         watcher.posts.unshift(...posts);
+        watcher.status = 'ready';
       })
       .catch(() => {
         watcher.form.message = i18next.t('errors.network');

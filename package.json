@@ -1,11 +1,12 @@
 {
-  "name": "my-webpack-project",
-  "version": "1.0.0",
-  "description": "My webpack project",
+  "name": "@hexlet/code",
+  "version": "0.0.5",
+  "description": "RSS aggregator - study project",
   "private": true,
   "scripts": {
     "build": "rm -rf dist && webpack",
-    "start": "webpack serve --open"
+    "start": "webpack serve --open",
+    "main": "src/index.js"
   },
   "repository": {
     "type": "git",

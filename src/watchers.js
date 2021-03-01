@@ -113,6 +113,13 @@ const renderChangePosts = (value, prevValue, pageElements, i18next) => {
   });
 };
 
+const renderChangeStatus = (value, pageElements) => {
+  const { addButton } = pageElements;
+  if (value === 'waiting') addButton.disabled = true;
+  if (value === 'ready') addButton.removeAttribute('disabled');
+  console.log(value, '^^^^^^^^^^', addButton);
+};
+
 export default (state, pageElements, i18next) => {
   const watcher = onChange(state, (path, value, prevValue) => {
     switch (path) {
@@ -127,6 +134,9 @@ export default (state, pageElements, i18next) => {
         break;
       case 'posts':
         renderChangePosts(value, prevValue, pageElements, i18next);
+        break;
+      case 'status':
+        renderChangeStatus(value, pageElements);
         break;
       default:
         break;
