@@ -180,12 +180,13 @@ export default () => {
     const addedFeedsUrl = rssState.feeds.map((feed) => feed.url);
     validateUrl(inputValueUrl, addedFeedsUrl)
       .then(() => {
+        console.log('!!!!VALID!!!--', inputValueUrl);
         watcher.form.validStatus = true;
-        watcher.form.message = '';
         watcher.form.message = i18next.t('messages.loading');
         loadRssFeed(inputValueUrl);
       })
       .catch((error) => {
+        console.log('!!!!NOTVALID!!!--', inputValueUrl);
         watcher.form.message = error.errors;
         watcher.form.validStatus = false;
       });
