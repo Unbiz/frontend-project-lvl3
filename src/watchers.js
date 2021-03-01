@@ -20,7 +20,7 @@ const renderChangeMessage = (value, pageElements) => {
   feedbackDouble.classList.add('double');
   console.log('@@@FED-', feedback, '@@@DOUB-', feedbackDouble, '@@@VAL-', value);
   // feedback.textContent = value;
-  feedbackDouble.textContent = value;
+  feedbackDouble.innerHTML = value;
   form.append(feedbackDouble);
   console.log('RESULT---', feedback.textContent);
 };
