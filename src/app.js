@@ -186,8 +186,9 @@ export default () => {
         loadRssFeed(inputValueUrl);
       })
       .catch((error) => {
-        console.log('!!!!NOTVALID!!!--', inputValueUrl);
-        watcher.form.message = error.errors;
+        console.log(error.errors[0], '!!!!NOTVALID!!!--', inputValueUrl);
+        const errorMessage = error.errors[0];
+        watcher.form.message = errorMessage;
         watcher.form.validStatus = false;
       });
   });
