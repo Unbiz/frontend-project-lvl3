@@ -108,6 +108,7 @@ export default () => {
       })
       .catch(() => {
         watcher.form.message = i18next.t('errors.network');
+        watcher.status = 'ready';
       });
   };
 
