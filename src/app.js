@@ -73,7 +73,6 @@ export default () => {
         .then((response) => getParsedData(response.data.contents))
         .then((parsedData) => getUpdatedPosts(parsedData, posts, id))
         .then((newPosts) => {
-          console.log('!!!%%%!!!!', url);
           watcher.posts.push(...newPosts);
         });
     });
@@ -104,7 +103,6 @@ export default () => {
       .then((response) => getParsedData(response.data.contents))
       .then((parsedData) => getNewFeedAndPosts(parsedData, inputValueUrl))
       .then(({ newFeed, newPosts }) => {
-        console.log('!!!!!!!!!!', inputValueUrl);
         watcher.form.message = i18next.t('messages.loadedSuccess');
         watcher.feeds.push(newFeed);
         watcher.posts.push(...newPosts);

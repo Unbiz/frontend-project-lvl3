@@ -1,14 +1,9 @@
 import _ from 'lodash';
 
-import { getIdCounter } from './utils.js';
-
-const getUnuqFeedId = getIdCounter();
-const getUnuqPostId = getIdCounter();
-
 const getFeed = (data, url) => {
   const title = data.querySelector('channel title').textContent;
   const description = data.querySelector('channel description').textContent;
-  const id = getUnuqFeedId();
+  const id = _.uniqueId();
 
   return {
     title, description, url, id,
@@ -44,7 +39,7 @@ const getNewItem = (currentItems, oldItems) => {
 const getNewFeedAndPosts = (data, url) => {
   const newFeed = getFeed(data, url);
   const newPostsWithoutId = getPosts(data, newFeed.id);
-  const newPosts = newPostsWithoutId.map((post) => ({ ...post, id: getUnuqPostId() }));
+  const newPosts = newPostsWithoutId.map((post) => ({ ...post, id: _.uniqueId() }));
   return { newFeed, newPosts };
 };
 
@@ -52,7 +47,7 @@ const getUpdatedPosts = (data, posts, feedId) => {
   const currentPosts = getPosts(data, feedId);
   const oldPosts = posts.filter((post) => post.feedId === feedId);
   const newPostsWithoutId = getNewItem(currentPosts, oldPosts);
-  const newPosts = newPostsWithoutId.map((post) => ({ ...post, id: getUnuqPostId() }));
+  const newPosts = newPostsWithoutId.map((post) => ({ ...post, id: _.uniqueId() }));
 
   return newPosts;
 };

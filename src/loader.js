@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getUrlWithProxy } from './utils.js';
+import getUrlWithProxy from './utils.js';
 
 export default (url, getWatcher, i18next) => {
   const watcher = getWatcher;
