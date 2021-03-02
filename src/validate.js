@@ -6,5 +6,11 @@ export default (url, feeds, i18next) => {
     .required(i18next.t('errors.urlInvalid'))
     .url(i18next.t('errors.urlInvalid'))
     .notOneOf(feeds, i18next.t('errors.urlAlreadyExists'));
-  return schema.validate(url);
+
+  try {
+    schema.validateSync(url);
+    return null;
+  } catch ({ message }) {
+    return message;
+  }
 };

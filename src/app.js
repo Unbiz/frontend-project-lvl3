@@ -83,32 +83,31 @@ export default () => {
     const inputValueUrl = formData.get('url');
     const addedFeedsUrl = rssState.feeds.map((feed) => feed.url);
 
-    validateUrl(inputValueUrl, addedFeedsUrl, i18next)
-      .then(() => {
-        watcher.form.validStatus = true;
-        watcher.form.message = i18next.t('messages.loading');
-        watcher.status = 'waiting';
+    const validateResult = validateUrl(inputValueUrl, addedFeedsUrl, i18next);
+    if (validateResult !== null) {
+      // const errorMessage = error.errors[0];
+      watcher.form.message = validateResult;
+      watcher.form.validStatus = false;
+      return;
+    }
+
+    watcher.form.validStatus = true;
+    watcher.form.message = i18next.t('messages.loading');
+    watcher.status = 'waiting';
+
+    loader(inputValueUrl)
+      .then((response) => getParsedData(response.data.contents))
+      .then((parsedData) => getNewFeedAndPosts(parsedData, inputValueUrl))
+      .then(({ newFeed, newPosts }) => {
+        console.log('!!!!!!!!!!', inputValueUrl);
+        watcher.form.message = i18next.t('messages.loadedSuccess');
+        watcher.feeds.push(newFeed);
+        watcher.posts.push(...newPosts);
+        watcher.status = 'ready';
       })
-      .then(() => {
-        loader(inputValueUrl)
-          .then((response) => getParsedData(response.data.contents))
-          .then((parsedData) => getNewFeedAndPosts(parsedData, inputValueUrl))
-          .then(({ newFeed, newPosts }) => {
-            console.log('!!!!!!!!!!', inputValueUrl);
-            watcher.form.message = i18next.t('messages.loadedSuccess');
-            watcher.feeds.push(newFeed);
-            watcher.posts.push(...newPosts);
-            watcher.status = 'ready';
-          })
-          .catch(() => {
-            watcher.form.message = i18next.t('errors.network');
-            watcher.status = 'ready';
-          });
-      })
-      .catch((error) => {
-        const errorMessage = error.errors[0];
-        watcher.form.message = errorMessage;
-        watcher.form.validStatus = false;
+      .catch(() => {
+        watcher.form.message = i18next.t('errors.network');
+        watcher.status = 'ready';
       });
   };
 
