@@ -2,7 +2,7 @@ export default {
   translation: {
     errors: {
       network: 'Ошибка сети',
-      parseFeed: 'Неправильный формат RSS, попробуйте другой адресс',
+      parseFeed: 'Ресурс не содержит валидный RSS',
       urlInvalid: 'Ссылка должна быть валидным URL',
       urlAlreadyExists: 'RSS уже существует',
     },

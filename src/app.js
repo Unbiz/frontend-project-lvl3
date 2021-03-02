@@ -52,7 +52,12 @@ export default () => {
 
   const getParsedData = (data) => {
     const parser = new DOMParser();
-    return parser.parseFromString(data, 'text/xml');
+    const parsedData = parser.parseFromString(data, 'text/xml');
+    const errorElement = parsedData.querySelector('parsererror');
+    if (errorElement) {
+      throw new Error(i18next.t('errors.parseFeed'));
+    }
+    return parsedData;
   };
 
   const updatePosts = (state) => {
@@ -95,7 +100,7 @@ export default () => {
     watcher.form.message = i18next.t('messages.loading');
     watcher.status = 'waiting';
 
-    loader(inputValueUrl)
+    loader(inputValueUrl, watcher, i18next)
       .then((response) => getParsedData(response.data.contents))
       .then((parsedData) => getNewFeedAndPosts(parsedData, inputValueUrl))
       .then(({ newFeed, newPosts }) => {
@@ -105,8 +110,8 @@ export default () => {
         watcher.posts.push(...newPosts);
         watcher.status = 'ready';
       })
-      .catch(() => {
-        watcher.form.message = i18next.t('errors.network');
+      .catch((err) => {
+        watcher.form.message = err.message;
         watcher.status = 'ready';
       });
   };
