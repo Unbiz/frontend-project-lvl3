@@ -46,7 +46,10 @@ const updatePosts = (state) => {
     return loader(url)
       .then((response) => getParsedData(response.data.contents))
       .then((parsedData) => getUpdatedPosts(parsedData, posts, id))
-      .then((newPosts) => watcher.posts.push(...newPosts));
+      .then((newPosts) => {
+        console.log('!!!%%%!!!!', url);
+        watcher.posts.push(...newPosts);
+      });
   });
 
   return Promise.all(promises)
@@ -70,6 +73,7 @@ const onSubmitForm = (e) => {
         .then((response) => getParsedData(response.data.contents))
         .then((parsedData) => getNewFeedAndPosts(parsedData, inputValueUrl))
         .then(({ newFeed, newPosts }) => {
+          console.log('!!!!!!!!!!', inputValueUrl);
           watcher.form.message = i18next.t('messages.loadedSuccess');
           watcher.feeds.push(newFeed);
           watcher.posts.push(...newPosts);
