@@ -12,7 +12,7 @@ export default {
     },
     feeds: 'Фиды',
     posts: 'Посты',
-    view: 'Посмотреть',
+    view: 'Просмотр',
     html: {
       title: 'RSS агрегатор',
       description: 'Начните читать RSS сегодня! Это легко, это красиво.',
