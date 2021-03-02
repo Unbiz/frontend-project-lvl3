@@ -92,7 +92,7 @@ const onSubmitForm = (e) => {
 };
 
 export default () => {
-  changeLanguage(i18next);
+  changeLanguage(i18next, pageElements);
 
   updatePosts(rssState, watcher);
 

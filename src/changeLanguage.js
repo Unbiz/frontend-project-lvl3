@@ -1,8 +1,8 @@
-import pageElements from './pageElements.js';
+// import pageElements from './pageElements.js';
 
 const exampleUrl = 'https://ru.hexlet.io/lessons.rss';
 
-export default (i18next) => {
+export default (i18next, pageElements) => {
   const {
     title, description, input, addButton, example,
   } = pageElements;
