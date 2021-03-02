@@ -17,7 +17,7 @@ export default {
       title: 'RSS агрегатор',
       description: 'Начните читать RSS сегодня! Это легко, это красиво.',
       placeholder: 'ссылка RSS',
-      button: 'Add',
+      button: 'Добавить',
       example: 'Пример',
     },
     modal: {
