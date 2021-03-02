@@ -1,7 +1,7 @@
 import i18n from 'i18next';
 
-import pageElements from './pageElements.js';
-import changeLanguage from './changeLanguage.js';
+// import pageElements from './pageElements.js';
+// import changeLanguage from './changeLanguage.js';
 import validateUrl from './validate.js';
 import { getNewFeedAndPosts, getUpdatedPosts } from './builder.js';
 import resources from './locales';
@@ -9,8 +9,6 @@ import getWatcher from './watchers';
 import loader from './loader.js';
 
 export default () => {
-  const updateInterval = 5000;
-
   const rssState = {
     lng: 'ru',
     status: 'ready',
@@ -27,6 +25,28 @@ export default () => {
     lng: rssState.lng,
     resources,
   });
+
+  const pageElements = {
+    title: document.querySelector('h1'),
+    description: document.querySelector('h1 + p'),
+    form: document.querySelector('form[data-type="form"]'),
+    input: document.querySelector('input[data-type="input"]'),
+    feedback: document.querySelector('.feedback'),
+    feeds: document.querySelector('.feeds'),
+    posts: document.querySelector('.posts'),
+    addButton: document.querySelector('button[data-type="button"]'),
+    example: document.querySelector('p[data-type="example"]'),
+  };
+
+  const exampleUrl = 'https://ru.hexlet.io/lessons.rss';
+
+  pageElements.title.textContent = i18next.t('html.title');
+  pageElements.description.textContent = i18next.t('html.description');
+  pageElements.input.placeholder = i18next.t('html.placeholder');
+  pageElements.addButton.textContent = i18next.t('html.button');
+  pageElements.example.textContent = `${i18next.t('html.example')}: ${exampleUrl}`;
+
+  const updateInterval = 5000;
 
   const watcher = getWatcher(rssState, pageElements, i18next);
 
@@ -92,7 +112,7 @@ export default () => {
       });
   };
 
-  changeLanguage(i18next, pageElements);
+  // changeLanguage(i18next, pageElements);
 
   updatePosts(rssState, watcher);
 
